@@ -38,7 +38,10 @@ class Orders with ChangeNotifier {
     if (extractedData == null) {
       return;
     }
+    print('here');
     extractedData.forEach((orderId, orderData) {
+      print(orderId);
+      print(orderData);
       loadedOrders.add(
         OrderItem(
           id: orderId,
