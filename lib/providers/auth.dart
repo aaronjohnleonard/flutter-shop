@@ -13,7 +13,6 @@ class Auth with ChangeNotifier {
 
   Auth() {
     _googleApiKey = GlobalConfiguration().getValue('googleApiKey');
-    print(_googleApiKey);
   }
 
   bool get isAuth {
@@ -24,11 +23,13 @@ class Auth with ChangeNotifier {
     if (_expiryDate != null &&
         _expiryDate.isAfter(DateTime.now()) &&
         _token != null) {
-      print('is logged in');
       return _token;
     }
-    print('not logged in');
     return null;
+  }
+
+  String get userId {
+    return _userId;
   }
 
   Future<void> _authenticate(
@@ -47,13 +48,9 @@ class Auth with ChangeNotifier {
         ),
       );
       final responseData = json.decode(response.body);
-      print(responseData);
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
-      print(responseData['idToken']);
-      print(responseData['localId']);
-      print(responseData['expiresIn']);
       _token = responseData['idToken'];
       _userId = responseData['localId'];
       _expiryDate = DateTime.now()
